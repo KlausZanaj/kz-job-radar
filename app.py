@@ -3,6 +3,7 @@
 import streamlit as st
 
 from jobradr.cloud import collect_public
+from jobradr.cloud import triveneto_location
 from jobradr.companies import COMPANIES
 
 st.set_page_config(page_title="KZ Job Radar · demo online", page_icon="🔎", layout="wide")
@@ -24,15 +25,18 @@ with tab_jobs:
         jobs, errors = scan()
     if errors:
         st.warning("Alcune fonti non hanno risposto: " + ", ".join(errors))
+    area = st.selectbox("Dove cercare", ["Triveneto", "Tutte le sedi"],
+                        help="Solo le offerte con località esplicitamente indicata nel Triveneto entrano nel primo filtro. Le altre, incluse quelle da remoto o con località ignota, sono disponibili in «Tutte le sedi».")
+    in_area = [job for job in jobs if area == "Tutte le sedi" or triveneto_location(job["location"])]
     col1, col2, col3 = st.columns(3)
-    col1.metric("Annunci letti", len(jobs))
-    col2.metric("Ruoli da valutare", sum(j["score"] >= 40 for j in jobs))
-    col3.metric("Con data fonte entro 24 h", sum(j["freshness"] == "Data della fonte entro 24 ore" for j in jobs))
+    col1.metric("Annunci letti dalle fonti", len(jobs))
+    col2.metric("Ruoli da valutare nell'area", sum(j["score"] >= 40 for j in in_area))
+    col3.metric("Con data fonte entro 24 h nell'area", sum(j["freshness"] == "Data della fonte entro 24 ore" for j in in_area))
     minimum = st.select_slider("Rilevanza minima", options=[0, 40, 75], value=40,
                                format_func=lambda n: {0: "Tutti", 40: "Da valutare", 75: "Alta"}[n])
     when = st.selectbox("Data", ["Ultime 24 h o data ignota", "Tutti", "Solo 24 h verificati"])
     shown = []
-    for job in jobs:
+    for job in in_area:
         if job["score"] < minimum:
             continue
         if when == "Solo 24 h verificati" and job["freshness"] != "Data della fonte entro 24 ore":
@@ -44,7 +48,7 @@ with tab_jobs:
         shown.append(job)
     st.caption(f"{len(shown)} annunci nel filtro · i primi 50 sono mostrati · la data della fonte può differire dalla prima pubblicazione")
     if not shown:
-        st.write("Nessun risultato in questo filtro. Prova «Tutti» o consulta le aziende qui accanto.")
+        st.write("Nessun risultato in questo filtro. Le fonti automatiche sono ancora poche: prova «Tutte le sedi» oppure consulta la scheda Aziende per cercare sui loro siti ufficiali.")
     for job in shown[:50]:
         with st.container(border=True):
             st.subheader(job["title"])

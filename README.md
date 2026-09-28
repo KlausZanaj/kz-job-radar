@@ -60,7 +60,7 @@ Senza chiavi Adzuna, il resto del programma funziona comunque.
 
 ### Demo online su Streamlit Community Cloud
 
-Questo ZIP include `app.py` e `requirements.txt` per creare un'app Streamlit su [Community Cloud](https://share.streamlit.io/). Pubblica il codice in un **nuovo repository GitHub**, seleziona il branch `main` e come file principale `app.py`. La demo online è pubblica, mostra solo annunci pubblici delle tre fonti abilitate (Arbeitnow, AutoScout24, Lovable) e una rubrica di 14 pagine aziendali. Le richieste pubbliche condividono una cache di un'ora. Non sono caricati il tuo CV originale, indirizzi email né credenziali API; il codice contiene soltanto una lista generica di competenze e città per il punteggio.
+La [demo online](https://kz-job-radar.streamlit.app/) usa `app.py` e `requirements.txt` su Streamlit Community Cloud. Mostra annunci pubblici delle tre fonti abilitate (Arbeitnow, AutoScout24, Lovable) e una rubrica di 14 pagine aziendali. All'apertura mostra soltanto gli annunci con località esplicitamente indicata nel Triveneto; puoi scegliere «Tutte le sedi» per allargare la ricerca. Le richieste pubbliche condividono una cache di un'ora. Non sono caricati il tuo CV originale, indirizzi email né credenziali API; il codice contiene soltanto una lista generica di competenze e città per il punteggio.
 
 La demo **non sostituisce** la versione Windows: niente ricerca ogni ora mentre nessuno la visita, niente salvataggio degli stati, importazione email, GPT o chiavi Adzuna. Queste funzioni richiedono l'app locale per evitare di esporre email e preferenze personali in un'app pubblica. Quando Community Cloud è inattivo, può andare in sospensione. Non pubblicare mai la cartella `data/`, le email `.eml` o chiavi API nel repository.
 
