@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="it"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>KZ Job Radar</title><link rel="stylesheet" href="/style.css"></head>
+<body><main class="wrap">
+  <header><div><small>RICERCA LAVORO · PADOVA</small><h1>KZ Job Radar</h1>
+  <p>Annunci d'ufficio coerenti con il tuo CV, da controllare prima di candidarti.</p></div><span class="pill">Locale · solo lettura</span></header>
+  <section class="hero"><div><h2>Inizia dai lavori che fanno per te.</h2>
+  <p>Prima i ruoli e-commerce, marketing e back office; poi quelli amministrativi e logistici d'ufficio. La distanza in auto e la RAL vanno confermate sull'annuncio.</p>
+  <button id="scan">Cerca annunci ora</button><span id="scanInfo" class="muted"></span></div>
+  <div class="hero-note">Il punteggio è un filtro orientativo, <strong>non</strong> la probabilità di essere assunto. Non inviamo candidature.</div></section>
+  <div class="metrics"><div><strong id="total">0</strong><span>Annunci raccolti</span></div><div><strong id="fresh">0</strong><span>Data fonte entro 24 h</span></div><div><strong id="unknown">0</strong><span>Data da verificare</span></div><div><strong id="matching">0</strong><span>Da esaminare</span></div></div>
+  <section class="panel"><div class="row"><div><h2>Annunci</h2><p class="muted">Puoi aprire l'annuncio originale e decidere tu se candidarti.</p></div>
+  <div class="filters"><label>Quando <select id="when"><option value="fresh">Ultime 24 h + data ignota</option><option value="all">Tutti</option><option value="verified">Solo 24 h verificati</option></select></label>
+  <label>Rilevanza <select id="minScore"><option value="40">Da valutare (40+)</option><option value="0">Mostra anche esclusi</option><option value="75">Alta (75+)</option></select></label></div></div>
+  <div id="jobs" class="jobs"><p class="muted">Premi “Cerca annunci ora” per effettuare la prima ricerca.</p></div></section>
+  <section class="panel"><div class="row"><div><h2>Controllo automatico</h2><p class="muted">Funziona solo mentre questa app e il PC restano accesi.</p></div>
+  <label class="switch"><input type="checkbox" id="monitor"> Controlla ogni ora</label></div>
+  <div class="row border"><div><h3>Analisi GPT facoltativa</h3><p class="muted">Spenta di partenza. Anche quando è attiva, viene usata <em>solo</em> se premi «Analizza con GPT» su un annuncio. Richiede una chiave API con costi separati da ChatGPT Plus.</p></div>
+  <label class="switch"><input type="checkbox" id="ai"> Abilita pulsanti GPT</label></div>
+  <p id="error" class="error" role="alert"></p></section>
+  <section class="panel"><h2>Amplia le fonti</h2><p class="muted">Arbeitnow è attiva; può avere pochi annunci vicini a Padova. Due bacheche Greenhouse di esempio sono già configurate nelle nuove installazioni. Puoi aggiungere altre aziende con bacheche Greenhouse o Lever; non è un elenco completo del Triveneto.</p>
+  <label class="switch"><input type="checkbox" id="feed"> Includi Arbeitnow</label>
+  <a href="https://www.arbeitnow.com/" target="_blank" rel="noopener noreferrer">Visita Arbeitnow ↗</a>
+  <p class="muted">Per ricerche più mirate in Veneto puoi configurare l'API di <a href="https://developer.adzuna.com/" target="_blank" rel="noopener noreferrer">Adzuna</a> sul tuo PC. Tre ricerche per controllo (e-commerce, back office, marketing); l'app non mostra previsioni salariali. Fonte annunci: <a href="https://www.adzuna.it/" target="_blank" rel="noopener noreferrer">The Adzuna API</a>.</p>
+  <form id="boardForm" class="formline"><select name="type"><option value="greenhouse">Greenhouse</option><option value="lever">Lever (globale)</option><option value="lever_eu">Lever (UE)</option></select><input name="slug" required maxlength="80" placeholder="Codice azienda nella URL"><button>Aggiungi azienda</button></form>
+  <div id="boards" class="chips"></div>
+  <details><summary>Come trovo il codice azienda?</summary><p>Se la pagina carriere è <code>job-boards.greenhouse.io/azienda</code> o <code>jobs.lever.co/azienda</code>, scrivi <code>azienda</code>. Non inserire credenziali LinkedIn o Indeed.</p></details></section>
+  <section class="panel"><h2>Aziende del Triveneto da consultare</h2><p class="muted">Pagine ufficiali verificate. «Seguita» indica soltanto le due bacheche controllate automaticamente nelle nuove installazioni; le altre si aprono per una verifica manuale. La presenza qui non indica che vi siano offerte aperte.</p><div id="companies" class="company-list"></div></section>
+  <section class="panel"><h2>Importa alert di lavoro ricevuti via email</h2><p class="muted">Esporta dal tuo programma di posta gli alert LinkedIn o Indeed come file <code>.eml</code>, poi selezionali qui. L'app raccoglie soltanto i collegamenti diretti riconosciuti e ti lascia verificare titolo, sede e data nella pagina originale. Non legge la tua casella email e non conserva il testo delle email. Alcuni link di tracciamento potrebbero non essere riconosciuti.</p>
+  <label for="alertFiles">File .eml</label> <input id="alertFiles" type="file" accept=".eml,message/rfc822" multiple> <button id="importAlerts" type="button">Importa alert selezionati</button><p id="importInfo" class="muted" role="status"></p>
+  <p class="muted">Per altre offerte europee puoi consultare <a href="https://eures.europa.eu/job-search_it" target="_blank" rel="noopener noreferrer">EURES ↗</a> direttamente: EURES non è collegato all'app.</p></section>
+  <section class="panel"><h2>Aggiungi un annuncio trovato da te</h2><p class="muted">Anche un link LinkedIn o Indeed: il programma non visita né copia automaticamente la pagina, quindi incolla titolo e, se vuoi, descrizione.</p>
+  <form id="manualForm" class="manual"><input name="url" required type="url" placeholder="https://... link all'annuncio"><input name="title" required placeholder="Titolo della posizione"><input name="company" placeholder="Azienda"><input name="location" placeholder="Sede (es. Treviso)"><textarea name="description" rows="3" placeholder="Descrizione (facoltativa)"></textarea><button>Aggiungi e valuta</button></form></section>
+  <footer>Solo dati pubblici degli annunci. Il CV originale non viene inserito nel programma né inviato alle fonti. Controlla sempre data, sede, requisiti e retribuzione nell'annuncio originale.</footer>
+</main><script src="/app.js" defer></script></body></html>
