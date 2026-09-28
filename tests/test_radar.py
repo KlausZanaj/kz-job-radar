@@ -11,7 +11,7 @@ from urllib.request import Request, urlopen
 
 from jobradr import sources
 from jobradr.alerts import parse_alert
-from jobradr.cloud import collect_public
+from jobradr.cloud import collect_public, triveneto_location
 from jobradr.companies import COMPANIES
 from jobradr.engine import Engine
 from jobradr.model import Job, date_utc, plain
@@ -100,6 +100,15 @@ class AlertTests(unittest.TestCase):
 
 
 class CloudTests(unittest.TestCase):
+    def test_triveneto_filter_rejects_foreign_remote_and_unknown_locations(self):
+        self.assertTrue(triveneto_location("Padova, Veneto"))
+        self.assertTrue(triveneto_location("Mestre (VE)"))
+        self.assertTrue(triveneto_location("Trieste, Friuli Venezia Giulia"))
+        self.assertFalse(triveneto_location("Berlin, remote"))
+        self.assertFalse(triveneto_location("London"))
+        self.assertFalse(triveneto_location("Remote"))
+        self.assertFalse(triveneto_location(""))
+
     def test_public_scan_handles_failed_board_and_excludes_manual_job(self):
         fresh = job("E-commerce Specialist", "Padova")
         with patch.object(sources, "arbeitnow", return_value=[fresh]), \
