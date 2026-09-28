@@ -31,6 +31,11 @@ class RankingTests(unittest.TestCase):
     def test_office_logistics_not_excluded(self):
         self.assertGreaterEqual(rank(job("Logistics Coordinator"))["score"], 40)
 
+    def test_marketing_manager_is_relevant_but_not_a_hiring_prediction(self):
+        item = rank(job("B2C Marketing Manager", "Padua (Italy)"))
+        self.assertGreaterEqual(item["score"], 40)
+        self.assertIn("nessuna stima", item["reason"])
+
     def test_unrelated_marked_uncertain(self):
         self.assertEqual(rank(job("Chef di cucina", description="Shopify marketplace"))["score"], 10)
 
