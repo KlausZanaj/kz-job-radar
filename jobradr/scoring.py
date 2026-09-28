@@ -13,8 +13,8 @@ BLOCKED = (
 )
 ROLE_GROUPS = (
     ("e-commerce e marketplace", 42, ("e-commerce", "ecommerce", "marketplace", "shopify", "catalog specialist", "catalogo prodotti", "digital merchandising")),
-    ("marketing digitale", 34, ("digital marketing", "marketing specialist", "seo", "paid media", "google ads", "social media specialist", "content specialist")),
-    ("back office e vendite", 32, ("back office", "back-office", "sales support", "sales operations", "commerciale interno", "customer service", "customer care", "order management", "ufficio vendite")),
+    ("marketing digitale", 34, ("digital marketing", "marketing specialist", "marketing manager", "seo", "paid media", "google ads", "social media specialist", "content specialist")),
+    ("back office e vendite", 32, ("back office", "back-office", "sales support", "sales operations", "commerciale interno", "customer service", "customer care", "customer success", "order management", "ufficio vendite")),
     ("amministrazione d'ufficio", 20, ("impiegato", "impiegata", "amministrativ", "segreteri", "office assistant", "office coordinator")),
     ("logistica d'ufficio", 27, ("logistics coordinator", "supply chain analyst", "logistic specialist", "ufficio logistica", "gestione spedizioni", "inventory analyst")),
     ("analisi dati", 29, ("data analyst", "business analyst", "analista dati", "kpi analyst")),
