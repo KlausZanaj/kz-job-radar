@@ -66,6 +66,12 @@ class FeedTests(unittest.TestCase):
         result = list(sources.greenhouse("demo", fake))
         self.assertIsNone(result[0].published_at)
 
+    def test_greenhouse_public_post_without_internal_id_is_kept(self):
+        fake = lambda url: {"jobs": [{"id": 77, "internal_job_id": None, "title": "Marketing Manager", "location": {"name": "Padua (Italy)"}, "absolute_url": "https://example.org/open"}]}
+        result = list(sources.greenhouse("demo", fake))
+        self.assertEqual(len(result), 1)
+        self.assertEqual(result[0].location, "Padua (Italy)")
+
     def test_slug_validation(self):
         with self.assertRaises(ValueError):
             list(sources.lever("../../secret", lambda url: []))
@@ -107,6 +113,7 @@ class AlertTests(unittest.TestCase):
 class CloudTests(unittest.TestCase):
     def test_triveneto_filter_rejects_foreign_remote_and_unknown_locations(self):
         self.assertTrue(triveneto_location("Padova, Veneto"))
+        self.assertTrue(triveneto_location("Padua (Italy)"))
         self.assertTrue(triveneto_location("Mestre (VE)"))
         self.assertTrue(triveneto_location("Trieste, Friuli Venezia Giulia"))
         self.assertFalse(triveneto_location("Berlin, remote"))
