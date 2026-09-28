@@ -40,7 +40,7 @@ def greenhouse(slug, fetch=read_json):
     data = fetch(f"https://boards-api.greenhouse.io/v1/boards/{slug}/jobs?content=true")
     # List endpoint supplies updated_at, not first_published: mark unknown rather than inventing publication.
     for item in data.get("jobs", []):
-        if item.get("internal_job_id") is None or not item.get("absolute_url"):
+        if not item.get("id") or not item.get("absolute_url"):
             continue
         location = item.get("location") or {}
         yield Job(f"Greenhouse/{slug}", str(item["id"]), str(item.get("title") or ""), slug,
