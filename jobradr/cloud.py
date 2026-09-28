@@ -4,6 +4,19 @@ from . import sources
 from .scoring import freshness, rank
 
 BOARDS = ("autoscout24", "lovable")
+TRIVENETO_PLACES = (
+    "padova", "padua", "vigonza", "piombino dese", "brugine", "treviso", "roncade",
+    "vicenza", "verona", "rovigo", "venezia", "venice", "mestre", "quarto d'altino",
+    "santa maria di sala", "belluno", "udine", "pordenone", "gorizia", "trieste",
+    "trento", "bolzano", "veneto", "friuli", "trentino", "alto adige", "south tyrol",
+)
+
+
+def triveneto_location(location):
+    """Only explicit regional locations qualify; unknown or foreign remote jobs do not."""
+    from .scoring import has
+
+    return any(has(location, place) for place in TRIVENETO_PLACES)
 
 
 def collect_public():
